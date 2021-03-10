@@ -1,0 +1,11 @@
+env/
+migrations/
+_pycache_/
+./_pycache_/
+.vscode/
+.pyc
+./.pyc
+../.pyc
+tes.py
+simpel.sock
+simpel.ini

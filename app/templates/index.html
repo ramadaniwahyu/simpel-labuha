@@ -1,0 +1,157 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "bootstrap/utils.html" as utils %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>{{ title }} || Simpel-KEPO</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="icon" href="{{ url_for('serveStaticResource', resource='img/favicon.ico') }}" type="image/x-icon">
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{{ url_for('serveStaticResource', resource='plugins/fontawesome-free/css/all.min.css') }}">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Tempusdominus Bbootstrap 4 -->
+  <link rel="stylesheet" href="{{ url_for('serveStaticResource', resource='plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
+  <!-- iCheck -->
+  <link rel="stylesheet" href="{{ url_for('serveStaticResource', resource='plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{{ url_for('serveStaticResource', resource='plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('serveStaticResource', resource='plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+  <!-- JQVMap -->
+  <link rel="stylesheet" href="{{ url_for('serveStaticResource', resource='plugins/jqvmap/jqvmap.min.css') }}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{{ url_for('serveStaticResource', resource='dist/css/adminlte.min.css') }}">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="{{ url_for('serveStaticResource', resource='plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
+  <!-- Daterange picker -->
+  <link rel="stylesheet" href="{{ url_for('serveStaticResource', resource='plugins/daterangepicker/daterangepicker.css') }}">
+  <!-- summernote -->
+  <link rel="stylesheet" href="{{ url_for('serveStaticResource', resource='plugins/summernote/summernote-bs4.css') }}">
+   <!-- Custom style -->
+   <link rel="stylesheet" href="{{ url_for('serveStaticResource', resource='dist/css/custom.css') }}">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body class="hold-transition container bg-info disabled">
+    <div class="wrapper">
+        <div class="content-header text-center">
+            <img width=80px src="{{ url_for('serveStaticResource', resource='img/logo.png') }}"/>
+            <h4>MONITORING KENAIKAN PANGKAT DAN KENAIKAN GAJI BERKALA</h4>
+            <h4>PENGADILAN NEGERI LABUHA</h4>
+        </div>
+        <div class="content-body text-dark">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="myData" class="table table-bordered table-striped table-hover">
+                            <thead class=>
+                                <tr>
+                                    <th width=5%>Foto</th>
+                                    <th>Nama</th>
+                                    <th class="text-center">Pangkat / Gol. Ruang</th>
+                                    <th>Jabatan</th>
+                                    <th>TMT KP Sebelumnya</th>
+                                    <th>TMT KP Selanjutnya</th>
+                                    <th>TMT KGB Sebelumnya</th>
+                                    <th>TMT KGB Selanjutnya</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for pegawai in daftar %}
+                                <tr>
+                                    <td>
+                                        {% if pegawai.foto %}
+                                        <img src="/static/img/foto/{{pegawai.foto}}" width=40px/>
+                                        {% else %}
+                                        <img src="/static/img/user-default.png" width=40px/>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {{ pegawai.name }}<br />
+                                        {{ pegawai.nip }}
+                                    </td>
+                                    <td class="text-center">
+                                        {{ pegawai.pangkat.desc }} <br />( {{ pegawai.pangkat.name }} )
+                                    </td>
+                                    <td>
+                                        {{ pegawai.jabatan }}<br />
+                                        Pengadilan Negeri Labuha
+                                    </td>
+                                    <td>{{ pegawai.tmt_kp }}</td>
+                                    <td>{{ pegawai.kp_next }}</td>
+                                    <td>{{ pegawai.tmt_kgb }}</td>
+                                    <td>{{ pegawai.kgb_next }}</td>
+                                </tr>
+                                {% endfor %}       
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- jQuery -->
+<script src="{{ url_for('serveStaticResource', resource='plugins/jquery/jquery.min.js') }}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="{{ url_for('serveStaticResource', resource='plugins/jquery-ui/jquery-ui.min.js') }}"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="{{ url_for('serveStaticResource', resource='plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<!-- ChartJS -->
+<script src="{{ url_for('serveStaticResource', resource='plugins/chart.js/Chart.min.js') }}"></script>
+<!-- Sparkline -->
+<script src="{{ url_for('serveStaticResource', resource='plugins/sparklines/sparkline.js') }}"></script>
+<!-- JQVMap -->
+<script src="{{ url_for('serveStaticResource', resource='plugins/jqvmap/jquery.vmap.min.js') }}"></script>
+<script src="{{ url_for('serveStaticResource', resource='plugins/jqvmap/maps/jquery.vmap.usa.js') }}"></script>
+<!-- jQuery Knob Chart -->
+<script src="{{ url_for('serveStaticResource', resource='plugins/jquery-knob/jquery.knob.min.js') }}"></script>
+<!-- daterangepicker -->
+<script src="{{ url_for('serveStaticResource', resource='plugins/moment/moment.min.js') }}"></script>
+<script src="{{ url_for('serveStaticResource', resource='plugins/daterangepicker/daterangepicker.js') }}"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="{{ url_for('serveStaticResource', resource='plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+<!-- Summernote -->
+<script src="{{ url_for('serveStaticResource', resource='plugins/summernote/summernote-bs4.min.js') }}"></script>
+<!-- overlayScrollbars -->
+<script src="{{ url_for('serveStaticResource', resource='plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
+<!-- DataTables -->
+<script src="{{ url_for('serveStaticResource', resource='plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ url_for('serveStaticResource', resource='plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ url_for('serveStaticResource', resource='plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ url_for('serveStaticResource', resource='plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<!-- AdminLTE App -->
+<script src="{{ url_for('serveStaticResource', resource='dist/js/adminlte.js') }}"></script>
+<!-- View PDF -->
+<script src="{{ url_for('serveStaticResource', resource='dist/js/pdfobject.min.js') }}"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script src="{{ url_for('serveStaticResource', resource='dist/js/pages/dashboard.js') }}"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="{{ url_for('serveStaticResource', resource='dist/js/demo.js') }}"></script>
+{% block scripts %}
+{% endblock scripts %}
+<script>
+    $(function () {
+      $('#myData').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": false,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+      });
+    });
+  </script>
+</body>
+</html>

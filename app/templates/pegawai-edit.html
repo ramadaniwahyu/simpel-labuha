@@ -1,0 +1,48 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "bootstrap/utils.html" as utils %}
+{% extends "base.html" %}
+
+{% block styles %}
+{% endblock styles %}
+    
+{% block breadcrumbs %}
+<ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item"><a href="/beranda"><i class="fas fa-tachometer-alt"></i> Beranda</a></li>
+    {% if current_user.is_admin %}
+    <li class="breadcrumb-item"><a href="/pegawai"><i class="fas fa-house-user"></i> Pegawai</a></li>
+    {% else %}
+    <li class="breadcrumb-item"><a href="/daftar-pegawai"><i class="fas fa-house-user"></i> Pegawai</a></li>
+    {% endif %}
+    <li class="breadcrumb-item active">{{title}}</li>
+</ol>
+{% endblock breadcrumbs %}
+
+{% block contents %}
+{{ utils.flashed_messages(dismissible=True) }}
+<div class="card">
+    <div class="card-header text-right">
+        <a type="button" class="btn bg-danger" href="/pegawai">Kembali</a>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-6">
+                {{ wtf.quick_form(form, button_map={'submit': 'primary'}) }}
+                
+            </div>
+            <div class="col-6 text-center">
+                {% if pegawai.foto %}
+                <img src="/static/img/foto/{{ pegawai.foto }}" alt="{{ pegawai.name }}-{{ pegawai.nomor_id }}" width="300">
+                {% else %}
+                <img src="/static/img/user-default.png" alt="{{ pegawai.name }}-{{ pegawai.nomor_id }}" width="300">
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock contents %}
+
+{% block modals %}
+{% endblock modals %}
+
+{% block scripts %}
+{% endblock scripts %}

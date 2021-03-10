@@ -1,0 +1,84 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "bootstrap/utils.html" as utils %}
+{% extends "base.html" %}
+
+{% block styles %}
+{% endblock styles %}
+    
+{% block breadcrumbs %}
+<ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item"><a href="/beranda"><i class="fas fa-tachometer-alt"></i> Beranda</a></li>
+    <li class="breadcrumb-item active"><i class="fas fa-users"></i> {{ title }}</li>
+</ol>
+{% endblock breadcrumbs %}
+
+{% block contents %}
+{{ utils.flashed_messages(dismissible=True) }}
+<div class="card">
+    <div class="card-header text-right">
+        <button type="button" class="btn bg-teal waves-effect m-r-20" data-toggle="modal" data-target="#defaultModal">Tambah</button>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="myData" class="table table-bordered table-striped table-hover">
+                <thead class=>
+                    <tr>
+                        <th width=5%>No</th>
+                        <th>Nama / Email</th>
+                        <th>Pegawai</th>
+                        <th width=20% class="text-center">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for no, pengguna in daftar %}
+                    <tr>
+                        <td>{{ no }}</td>
+                        <td>
+                            {{ pengguna.name }}
+                            {% if pengguna.level=='0' %}
+                                <sup>
+                                    <span class="badge badge-danger">S</span>
+                                </sup>
+                            {% elif pengguna.level=='1' %}
+                            <sup>
+                                <span class="badge badge-info">P</span>
+                            </sup>
+                            {% endif %}
+                            <br /><small><i>{{ pengguna.email }}</i></small>
+                        </td>
+                        <td>
+                            {{ pengguna.fullname}}<br />
+                            <small>{{ pengguna.group }}</small>
+                        </td>
+                        <td class="text-center">
+                            <a class="btn btn-app" href="{{ url_for('admin.user_edit', id=pengguna.id) }}"><i data-toggle="tooltip" data-placement="top" title="Edit" class="fas fa-edit text-info"></i> </a>
+                            <a class="btn btn-app" href="{{ url_for('admin.user_del', id=pengguna.id) }}"><i data-toggle="tooltip" data-placement="top" title="Hapus" class="fas fa-trash text-danger"></i> </a>
+                        </td>
+                    </tr>
+                    {% endfor %}       
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock contents %}
+
+{% block modals %}
+<div class="modal fade" id="defaultModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="row">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+             </div>
+            <div class="modal-body">
+                {{ wtf.quick_form(form, button_map={'submit': 'primary'}) }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock modals %}
+
+{% block scripts %}
+{% endblock scripts %}
