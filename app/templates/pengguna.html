@@ -51,8 +51,8 @@
                             <small>{{ pengguna.group }}</small>
                         </td>
                         <td class="text-center">
-                            <a class="btn btn-app" href="{{ url_for('admin.user_edit', id=pengguna.id) }}"><i data-toggle="tooltip" data-placement="top" title="Edit" class="fas fa-edit text-info"></i> </a>
-                            <a class="btn btn-app" href="{{ url_for('admin.user_del', id=pengguna.id) }}"><i data-toggle="tooltip" data-placement="top" title="Hapus" class="fas fa-trash text-danger"></i> </a>
+                            <a class="btn btn-app" href="{{ url_for('user_edit', id=pengguna.id) }}"><i data-toggle="tooltip" data-placement="top" title="Edit" class="fas fa-edit text-info"></i> </a>
+                            <a class="btn btn-app" href="{{ url_for('user_del', id=pengguna.id) }}"><i data-toggle="tooltip" data-placement="top" title="Hapus" class="fas fa-trash text-danger"></i> </a>
                         </td>
                     </tr>
                     {% endfor %}       

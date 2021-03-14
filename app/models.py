@@ -21,6 +21,7 @@ class Pengguna(Base, UserMixin):
     name = db.Column(db.String(60))
     password_hash = db.Column(db.String(128))
     email =  db.Column(db.String(100), nullable=False)
+    hp = db.Column(db.String(20), nullable=False)
     pegawai_id = db.Column(db.Integer, db.ForeignKey('pegawai.id'))
 
     @property
@@ -57,6 +58,7 @@ class Pegawai(Base):
     foto = db.Column(db.String(200))
     jabatan_id = db.Column(db.Integer, db.ForeignKey('jabatan.id'))
     pangkat_id = db.Column(db.Integer, db.ForeignKey('pangkat.id'))
+    hp = db.Column(db.String(20))
     tmt_kp = db.Column(db.Date)
     tmt_kgb = db.Column(db.Date)
     kp_next = db.Column(db.Date)

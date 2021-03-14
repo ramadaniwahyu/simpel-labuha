@@ -12,6 +12,7 @@
 {% endblock breadcrumbs %}
 
 {% block contents %}
+{{ utils.flashed_messages(dismissible=True) }}
 <div class="row">
     <div class="col-lg-6 col-6">
       <!-- small box -->

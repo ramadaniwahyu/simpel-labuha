@@ -9,7 +9,7 @@ class Config(object):
 	"""
 	Database Connection
 	"""
-	SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://user_db:Q1w2e3r4!!@192.168.20.1/simpel'
+	SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://user123:Q1w2e3r4!!@ramadani.my.id/simpel'
 	SQLALCHEMY_TRACK_MODIFICATIONS = False
 	
 	BOOTSTRAP_FONTAWESOME = True
