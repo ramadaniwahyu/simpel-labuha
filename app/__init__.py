@@ -43,10 +43,12 @@ def kirim_wa_kp(id):
     for a in admin:
         msg = '*Mohon Perhatian*'+os.linesep+os.linesep+'Informasi Pegawai atas nama '+p.name+' ('+p.nip+'), Kenaikan Pangkat selanjutnya pada '+p.kp_next.strftime('%d-%m-%Y')+'.'+os.linesep+'Mohon segera ditindaklanjuti. Abaikan jika sudah diproses.'+os.linesep+os.linesep+'Salam,'+os.linesep+os.linesep+'_Admin SIMPEL-KEPO PN Labuha_'+os.linesep+os.linesep+os.linesep+os.linesep+'*_catatan_* : _Pesan ini dikirim secara otomatis. Tidak perlu dibalas._'
         crl = pycurl.Curl()
-        crl.setopt(crl.URL, 'http://ramadani.my.id:5050/waapi/sendText')
+        crl.setopt(crl.URL, 'http://ramadani.my.id:5050/waapi/sendImage')
         json = {
             'to': a.hp,
-            'pesan': msg
+            'pesan': msg,
+            'imageurl': 'http://ramadani.my.id:5099/img/pic.png',
+            'image_name': 'pic.png'
             }
         pf = urlencode(json)
         crl.setopt(crl.POSTFIELDS, pf)
@@ -59,10 +61,12 @@ def kirim_wa_kgb(id):
     for a in admin:
         msg = '*Mohon Perhatian*'+os.linesep+os.linesep+'Informasi Pegawai atas nama '+p.name+' ('+p.nip+'), Kenaikan Gaji Berkala selanjutnya pada '+p.kgb_next.strftime('%d-%m-%Y')+'.'+os.linesep+'Mohon segera ditindaklanjuti. Abaikan jika sudah diproses.'+os.linesep+os.linesep+'Salam,'+os.linesep+os.linesep+'_Admin SIMPEL-KEPO PN Labuha_'+os.linesep+os.linesep+os.linesep+os.linesep+'*_catatan_* : _Pesan ini dikirim secara otomatis. Tidak perlu dibalas._'
         crl = pycurl.Curl()
-        crl.setopt(crl.URL, 'http://ramadani.my.id:5050/waapi/sendText')
+        crl.setopt(crl.URL, 'http://ramadani.my.id:5050/waapi/sendImage')
         json = {
             'to': a.hp,
-            'pesan': msg
+            'pesan': msg,
+            'imageurl': 'http://ramadani.my.id:5099/img/pic.png',
+            'image_name': 'pic.png'
             }
         pf = urlencode(json)
         crl.setopt(crl.POSTFIELDS, pf)
@@ -100,7 +104,6 @@ def do_check_kp():
         elif (delta == 40):
             kirim_wa_kp(peg.id)
 
-        flash ('KP = '+peg.kp_next.strftime('%d-%m-%Y')+', '+times+' hari lagi. Nama Pegawai = '+peg.name)
 
 def do_check_kgb():
     daftar = Pegawai.query.all()
@@ -132,8 +135,6 @@ def do_check_kgb():
             kirim_wa_kgb(peg.id)
         elif (delta == 10):
             kirim_wa_kgb(peg.id)
-
-        flash (' KGB = '+ peg.kgb_next.strftime('%d-%m-%Y')+', '+times+' hari lagi. Nama Pegawai = '+peg.name)
 
 
 '''
