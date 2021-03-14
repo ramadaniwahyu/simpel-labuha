@@ -43,7 +43,7 @@ def kirim_wa_kp(id):
     for a in admin:
         msg = '*Mohon Perhatian*'+os.linesep+os.linesep+'Informasi Pegawai atas nama '+p.name+' ('+p.nip+'), Kenaikan Pangkat selanjutnya pada '+p.kp_next.strftime('%d-%m-%Y')+'.'+os.linesep+'Mohon segera ditindaklanjuti. Abaikan jika sudah diproses.'+os.linesep+os.linesep+'Salam,'+os.linesep+os.linesep+'_Admin SIMPEL-KEPO PN Labuha_'+os.linesep+os.linesep+os.linesep+os.linesep+'*_catatan_* : _Pesan ini dikirim secara otomatis. Tidak perlu dibalas._'
         crl = pycurl.Curl()
-        crl.setopt(crl.URL, 'http://ramadani.my.id:5000/waapi/sendText')
+        crl.setopt(crl.URL, 'http://ramadani.my.id:5050/waapi/sendText')
         json = {
             'to': a.hp,
             'pesan': msg
@@ -59,7 +59,7 @@ def kirim_wa_kgb(id):
     for a in admin:
         msg = '*Mohon Perhatian*'+os.linesep+os.linesep+'Informasi Pegawai atas nama '+p.name+' ('+p.nip+'), Kenaikan Gaji Berkala selanjutnya pada '+p.kgb_next.strftime('%d-%m-%Y')+'.'+os.linesep+'Mohon segera ditindaklanjuti. Abaikan jika sudah diproses.'+os.linesep+os.linesep+'Salam,'+os.linesep+os.linesep+'_Admin SIMPEL-KEPO PN Labuha_'+os.linesep+os.linesep+os.linesep+os.linesep+'*_catatan_* : _Pesan ini dikirim secara otomatis. Tidak perlu dibalas._'
         crl = pycurl.Curl()
-        crl.setopt(crl.URL, 'http://ramadani.my.id:5000/waapi/sendText')
+        crl.setopt(crl.URL, 'http://ramadani.my.id:5050/waapi/sendText')
         json = {
             'to': a.hp,
             'pesan': msg
@@ -278,7 +278,7 @@ def kirim_notif(id):
     p = Pegawai.query.get_or_404(id)
     msg = '*Mohon Perhatian*'+os.linesep+os.linesep+'Informasi Pegawai atas nama '+p.name+' ('+p.nip+'), Kenaikan Pangkat selanjutnya pada '+p.kp_next.strftime('%d-%m-%Y')+'.'+os.linesep+'Mohon segera ditindaklanjuti. Abaikan jika sudah diproses.'+os.linesep+os.linesep+'Salam,'+os.linesep+os.linesep+'_Admin SIMPEL-KEPO PN Labuha_'+os.linesep+os.linesep+os.linesep+os.linesep+'*_catatan_* : _Pesan ini dikirim secara otomatis. Tidak perlu dibalas._'
     crl = pycurl.Curl()
-    crl.setopt(crl.URL, 'http://ramadani.my.id:5000/waapi/sendText')
+    crl.setopt(crl.URL, 'http://ramadani.my.id:5050/waapi/sendText')
     json = {
         'to': p.hp,
         'pesan': msg
@@ -360,7 +360,7 @@ def user_password(id):
     
 from .auth import auth as auth_blueprint
 app.register_blueprint(auth_blueprint)
-'''
+
 @app.errorhandler(403)
 def forbidden(error):
     return render_template('errors/403.html', title='Akses Ditolak'), 403
@@ -372,5 +372,3 @@ def page_not_found(error):
 @app.errorhandler(500)
 def internal_server_error(error):
     return render_template('errors/500.html', title='Server Internal Eror'), 500
-
-'''
