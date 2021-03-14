@@ -87,23 +87,31 @@ def do_check_kp():
 
         if (delta == 180):
             kirim_wa_kp(peg.id)
+            flash('Ada Kenaikan Pangkat dalam waktu dekat atas nama '+peg.name+'. Silahkan ditindaklanjuti')
         elif (delta == 150):
             kirim_wa_kp(peg.id)
+            flash('Ada Kenaikan Pangkat dalam waktu dekat atas nama '+peg.name+'. Silahkan ditindaklanjuti')
         elif (delta == 120):
             kirim_wa_kp(peg.id)
+            flash('Ada Kenaikan Pangkat dalam waktu dekat atas nama '+peg.name+'. Silahkan ditindaklanjuti')
         elif (delta == 90):
             kirim_wa_kp(peg.id)
+            flash('Ada Kenaikan Pangkat dalam waktu dekat atas nama '+peg.name+'. Silahkan ditindaklanjuti')
         elif (delta == 60):
             kirim_wa_kp(peg.id)
+            flash('Ada Kenaikan Pangkat dalam waktu dekat atas nama '+peg.name+'. Silahkan ditindaklanjuti')
         elif (delta == 55):
             kirim_wa_kp(peg.id)
+            flash('Ada Kenaikan Pangkat dalam waktu dekat atas nama '+peg.name+'. Silahkan ditindaklanjuti')
         elif (delta == 50):
             kirim_wa_kp(peg.id)
+            flash('Ada Kenaikan Pangkat dalam waktu dekat atas nama '+peg.name+'. Silahkan ditindaklanjuti')
         elif (delta == 45):
             kirim_wa_kp(peg.id)
+            flash('Ada Kenaikan Pangkat dalam waktu dekat atas nama '+peg.name+'. Silahkan ditindaklanjuti')
         elif (delta == 40):
             kirim_wa_kp(peg.id)
-
+            flash('Ada Kenaikan Pangkat dalam waktu dekat atas nama '+peg.name+'. Silahkan ditindaklanjuti')
 
 def do_check_kgb():
     daftar = Pegawai.query.all()
@@ -119,22 +127,31 @@ def do_check_kgb():
 
         if (delta == 90):
             kirim_wa_kgb(peg.id)
+            flash('Ada Kenaikan Pangkat dalam waktu dekat atas nama '+peg.name+'. Silahkan ditindaklanjuti')
         elif (delta == 80):
             kirim_wa_kgb(peg.id)
+            flash('Ada Kenaikan Gaji Berkala dalam waktu dekat atas nama '+peg.name+'. Silahkan ditindaklanjuti')
         elif (delta == 70):
             kirim_wa_kgb(peg.id)
+            flash('Ada Kenaikan Gaji Berkala dalam waktu dekat atas nama '+peg.name+'. Silahkan ditindaklanjuti')
         elif (delta == 60):
             kirim_wa_kgb(peg.id)
+            flash('Ada Kenaikan Gaji Berkala dalam waktu dekat atas nama '+peg.name+'. Silahkan ditindaklanjuti')
         elif (delta == 50):
             kirim_wa_kgb(peg.id)
+            flash('Ada Kenaikan Gaji Berkala dalam waktu dekat atas nama '+peg.name+'. Silahkan ditindaklanjuti')
         elif (delta == 40):
             kirim_wa_kgb(peg.id)
+            flash('Ada Kenaikan Gaji Berkala dalam waktu dekat atas nama '+peg.name+'. Silahkan ditindaklanjuti')
         elif (delta == 30):
             kirim_wa_kgb(peg.id)
+            flash('Ada Kenaikan Gaji Berkala dalam waktu dekat atas nama '+peg.name+'. Silahkan ditindaklanjuti')
         elif (delta == 20):
             kirim_wa_kgb(peg.id)
+            flash('Ada Kenaikan Gaji Berkala dalam waktu dekat atas nama '+peg.name+'. Silahkan ditindaklanjuti')
         elif (delta == 10):
             kirim_wa_kgb(peg.id)
+            flash('Ada Kenaikan Gaji Berkala dalam waktu dekat atas nama '+peg.name+'. Silahkan ditindaklanjuti')
 
 
 '''
