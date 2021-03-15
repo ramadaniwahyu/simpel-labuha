@@ -10,7 +10,7 @@
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="icon" href="{{ url_for('serveStaticResource', resource='img/fav.ico') }}" type="image/x-icon">
+  <link rel="icon" href="{{ url_for('serveStaticResource', resource='img/app.ico') }}" type="image/x-icon">
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Font Awesome -->
@@ -38,12 +38,16 @@
    <link rel="stylesheet" href="{{ url_for('serveStaticResource', resource='dist/css/custom.css') }}">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <style>
+      .main-footer {
+            margin-left: 0px !important;
+        }
+  </style>
 </head>
 <body class="hold-transition container bg-info disabled">
     <div class="wrapper">
         <div class="content-header text-center">
-            <img width=80px src="{{ url_for('serveStaticResource', resource='img/logo-pn-labuha.png') }}"/>
-            <h4>SIMPEL-KEPO</h4>
+            <img width=200px src="{{ url_for('serveStaticResource', resource='img/logo-app.png') }}"/>
             <h4>Sistem Informasi Pelayanan Kepegawaian dan Ortala Pengadilan Negeri Labuha</h4>
         </div>
         <div class="content-body text-dark">
@@ -97,6 +101,12 @@
             </div>
         </div>
     </div>
+    <footer class="main-footer">
+        <strong>Copyright &copy; 2021 <a href="https://instagram.com/pn_labuha">Pengadilan Negeri Labuha</a>.</strong>
+        <div class="float-right d-none d-sm-inline-block">
+          <b>Version</b> 1.0.0
+        </div>
+    </footer>
 <!-- jQuery -->
 <script src="{{ url_for('serveStaticResource', resource='plugins/jquery/jquery.min.js') }}"></script>
 <!-- jQuery UI 1.11.4 -->
