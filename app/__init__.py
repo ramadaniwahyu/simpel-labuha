@@ -117,7 +117,7 @@ def do_check_kgb():
     daftar = Pegawai.query.all()
     for peg in daftar:
         dt = date.today()
-        kgb = peg.kgb_next
+        kgb = peg.kgb_nextflask
         time = (kgb - dt)
         dt = time.total_seconds()
         delta = dt/86400
@@ -195,7 +195,7 @@ def pegawai():
             kgb =form.tmt_kgb.data.replace(year=form.tmt_kgb.data.year+2)
             pegawai = Pegawai.query.filter_by(nip=form.nip.data).first()
             if pegawai is not None :
-                flash('NIP/NRP Pegawai sudah ada, periksa kembali')
+                flash('NIP/NRP Pegawai '+form.nomor.data+' sudah ada, periksa kembali')
                 return redirect(url_for('pegawai'))
             else:
                 pegawai = Pegawai(name=form.name.data, nip=form.nip.data, hp=form.hp.data, jabatan=form.jabatan.data, pangkat=form.pangkat.data, foto=storage_filename, tmt_kp=form.tmt_kp.data, tmt_kgb=form.tmt_kgb.data, kp_next=kp, kgb_next=kgb)
@@ -203,7 +203,7 @@ def pegawai():
                 db.session.commit()
                 filepath = os.path.join(current_app.root_path, 'static/img/foto', storage_filename) 
                 file.save(filepath)
-                flash('Pegawai baru telah ditambahkan')
+                flash('Pegawai baru '+form.name.data+' telah ditambahkan')
                 return redirect(url_for('pegawai'))
             
         else :
@@ -211,13 +211,13 @@ def pegawai():
             kgb =form.tmt_kgb.data.replace(year=form.tmt_kgb.data.year+2)
             pegawai = Pegawai.query.filter_by(nomor=form.nomor.data).first()
             if pegawai is not None :
-                flash('NIP/NRP Pegawai sudah ada, periksa kembali')
+                flash('NIP/NRP Pegawai '+form.nomor.data+' sudah ada, periksa kembali')
                 return redirect(url_for('pegawai'))
             else:
                 pegawai = Pegawai(name=form.name.data, nomor=form.nomor.data, hp=form.hp.data, jabatan=form.jabatan.data, pangkat=form.pangkat.data, tmt_kp=form.tmt_kp.data, tmt_kgb=form.tmt_kgb.data, kp_next=kp, kgb_next=kgb)
                 db.session.add(pegawai)
                 db.session.commit()
-                flash('Pegawai baru telah ditambahkan, foto tidak ada.')
+                flash('Pegawai baru '+form.name.data+' telah ditambahkan, foto tidak ada.')
                 return redirect(url_for('pegawai'))
 
     return render_template('pegawai.html', form=form, daftar=daftar, title='Daftar Pegawai')
@@ -247,7 +247,7 @@ def pegawai_edit(id):
             db.session.commit()
             filepath = os.path.join(current_app.root_path, 'static/img/foto', storage_filename) 
             file.save(filepath)
-            flash('Data Pegawai telah diubah'+ pegawai.kp_next)
+            flash('Data Pegawai '+form.name.data+' telah diubah')
             return redirect(url_for('pegawai_edit', id=pegawai.id))
         else :
             pegawai.name = form.name.data
@@ -260,7 +260,7 @@ def pegawai_edit(id):
             pegawai.kp_next = form.tmt_kp.data.replace(year=form.tmt_kp.data.year+4)
             pegawai.kgb_next = form.tmt_kgb.data.replace(year=form.tmt_kgb.data.year+2)
             db.session.commit()
-            flash('Data Pegawai telah diubah '+ str(pegawai.kp_next))
+            flash('Data Pegawai '+form.name.data+' telah diubah ')
             return redirect(url_for('pegawai'))
 
     form.name.data = pegawai.name
@@ -282,7 +282,7 @@ def pegawai_del(id):
         os.remove(filepath)
     db.session.delete(pegawai)
     db.session.commit()
-    flash('Pegawai telah dihapus')
+    flash('Pegawai '+form.name.data+' telah dihapus')
     return redirect(url_for('pegawai'))
 
 @app.route('/kirim-pesan', methods=['GET', 'POST'])
