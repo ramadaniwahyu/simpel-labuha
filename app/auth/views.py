@@ -49,13 +49,27 @@ def profile():
     pengguna = Pengguna.query.get_or_404(id)
     form = PenggunaForm(obj=pengguna)
     if form.validate_on_submit():
-        pengguna.name = form.name.data
-        pengguna.email = form.email.data
-        pengguna.pegawai = form.pegawai.data
+        file = request.files['foto']
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            pengguna.name = form.name.data
+            pengguna.email = form.email.data
+            pengguna.pegawai = form.pegawai.data
+            filepath = os.path.join(current_app.root_path, 'static/img', filename) 
+            file.save(filepath)
+            flash('Data pengguna '+pengguna.name+' telah diubah')
+            db.session.commit()
+            flash('Data pengguna telah diubah')
+            return redirect(url_for('auth.profile'))
+        else:
+            pengguna.name = form.name.data
+            pengguna.email = form.email.data
+            pengguna.hp = form.hp.data
+            pengguna.pegawai = form.pegawai.data
 
-        db.session.commit()
-        flash('Data pengguna telah diubah')
-        return redirect(url_for('auth.profile'))
+            db.session.commit()
+            flash('Data pengguna '+pengguna.name+' telah diubah')
+            return redirect(url_for('auth.profile'))
     
     form.name.data = pengguna.name
     form.email.data = pengguna.email

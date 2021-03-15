@@ -80,9 +80,13 @@
       <!-- Sidebar user panel (optional) -->
       <div class="box-profile mt-3 mb-3 pb-2 text-center text-white">
         <div class="user-p">
-          <img src="{{ url_for('serveStaticResource', resource='img/user-1.png') }}" class="profile-user-img img-fluid img-circle" alt="User Image">
+          {% if current_user.foto %}
+            <img src="/static/img/{{ current_user.foto }}" alt="{{ current_user.name }}-{{ current_user.email }}" class="profile-user-img img-fluid img-circle">
+            {% else %}
+            <img src="{{ url_for('serveStaticResource', resource='img/user-default.png') }}" alt="{{ current_user.name }}-{{ current_user.email }}" class="profile-user-img img-fluid img-circle">
+            {% endif %}
         </div>
-        {{ current_user.fullname }}<br />
+        {{ current_user.name }}<br />
         <small>{{ current_user.email }}</small>
       </div>
       <hr>

@@ -20,7 +20,18 @@
         <a type="button" class="btn bg-teal waves-effect m-r-20" href="/pengguna/{{ pengguna.id }}/ganti-password"><i class="fas fa-lock"></i>Ganti Password</a>
     </div>
     <div class="card-body">
-        {{ wtf.quick_form(form, button_map={'submit': 'primary'}) }}
+        <div class="row">
+            <div class="col-6">
+                {{ wtf.quick_form(form, button_map={'submit': 'primary'}) }}
+            </div>
+            <div class="col-6 text-center">
+                {% if pengguna.foto %}
+                <img src="/static/img/{{ pengguna.foto }}" alt="{{ pengguna.name }}-{{ pengguna.email }}" width="300">
+                {% else %}
+                <img src="/static/img/user-default.png" alt="{{ pengguna.name }}-{{ pengguna.email }}" width="300">
+                {% endif %}
+            </div>
+        </div>
     </div>
 </div>
 {% endblock contents %}

@@ -23,6 +23,7 @@ class Pengguna(Base, UserMixin):
     email =  db.Column(db.String(100), nullable=False)
     hp = db.Column(db.String(20), nullable=False)
     pegawai_id = db.Column(db.Integer, db.ForeignKey('pegawai.id'))
+    foto = db.Column(db.String(200))
 
     @property
     def password(self):

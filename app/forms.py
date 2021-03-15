@@ -12,8 +12,9 @@ from .models import Pegawai, Pengguna, Jabatan, Pangkat
 class PenggunaForm(FlaskForm):
     name = StringField('Nama Pengguna', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
-    hp = StringField('Nomor WA (menggunakanan awalan 62)', validators=[DataRequired()])
+    hp = StringField('Nomor WA (menggunakanan awalan 62)')
     pegawai = QuerySelectField('Pegawai', query_factory=lambda: Pegawai.query.all(), get_label='name', allow_blank=True)
+    foto = FileField('Upload Foto', validators=[FileAllowed(['jpg', 'jpeg', 'png'], 'File gambar saja')])
     submit = SubmitField('Simpan')
 
 class PasswordForm(FlaskForm):
@@ -24,7 +25,7 @@ class PasswordForm(FlaskForm):
 class PegawaiForm(FlaskForm):
     name = StringField('Nama Pegawai', validators=[DataRequired()])
     nip = IntegerField('NIP/NRP', validators=[DataRequired()])
-    hp = IntegerField('Nomor WA (menggunakanan awalan 62)', validators=[DataRequired()])
+    hp = IntegerField('Nomor WA (menggunakanan awalan 62)')
     jabatan = QuerySelectField('Jabatan', query_factory=lambda: Jabatan.query.all(), get_label='name', allow_blank=True)
     pangkat = QuerySelectField('Pangkat', query_factory=lambda: Pangkat.query.all(), get_label='name', allow_blank=True)
     foto = FileField('Upload Foto', validators=[FileAllowed(['jpg', 'jpeg', 'png'], 'File gambar saja')])

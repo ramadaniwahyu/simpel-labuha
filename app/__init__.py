@@ -310,7 +310,7 @@ def kirim_notif(id):
     crl.perform()
     crl.close()
 
-    flash('Notififikasi Whatsapp kepada '+peg.name+' telah dikirim!')
+    flash('Notififikasi Whatsapp kepada '+p.name+' telah dikirim!')
     return redirect(url_for('pegawai'))
 
 ### Pengguna
@@ -322,14 +322,40 @@ def user():
     daftar = enumerate(daftar, start=1)
     form = PenggunaForm()
     if form.validate_on_submit() :
-        pengguna = Pengguna(name=form.name.data, email=form.email.data,
-                            hp=form.hp.data, pegawai=form.pegawai.data,
-                            password=form.name.data)
-        db.session.add(pengguna)
-        db.session.commit()
-        flash('Pengguna baru telah ditambahkan')
-        return redirect(url_for('user'))
-
+        file = request.files['foto']
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            pengguna = pengguna.query.filter_by(name=form.name.data).first()
+            if pengguna is not None :
+                flash('Nama pengguna '+form.name.data+' sudah ada, periksa kembali')
+                return redirect(url_for('user'))
+            else:
+                pengguna = Pengguna(name=form.name.data, email=form.email.data,
+                                hp=form.hp.data, pegawai=form.pegawai.data,
+                                password=form.name.data, foto=filename)
+                db.session.add(pengguna)
+                db.session.commit()
+                filepath = os.path.join(current_app.root_path, 'static/img', filename) 
+                file.save(filepath)
+                flash('Pengguna baru "'+form.name.data+'" telah ditambahkan')
+                return redirect(url_for('user'))
+            
+        else :
+            pengguna = pengguna.query.filter_by(name=form.name.data).first()
+            if pengguna is not None :
+                flash('Nama pengguna '+form.name.data+' sudah ada, periksa kembali')
+                return redirect(url_for('user'))
+            else:
+                pengguna = Pengguna(name=form.name.data, email=form.email.data,
+                                hp=form.hp.data, pegawai=form.pegawai.data,
+                                password=form.name.data)
+                db.session.add(pengguna)
+                db.session.commit()
+                filepath = os.path.join(current_app.root_path, 'static/img', filename) 
+                file.save(filepath)
+                flash('Pengguna baru "'+form.name.data+'" telah ditambahkan, tidak ada foto profil.')
+                return redirect(url_for('user'))
+        
     return render_template('pengguna.html', form=form, daftar=daftar, title='Pengguna')
 
 @app.route('/pengguna/<id>', methods=['GET', 'POST'])
@@ -339,14 +365,28 @@ def user_edit(id):
     pengguna = Pengguna.query.get_or_404(id)
     form = PenggunaForm(obj=pengguna)
     if form.validate_on_submit():
-        pengguna.name = form.name.data
-        pengguna.email = form.email.data
-        pengguna.hp = form.hp.data
-        pengguna.pegawai = form.pegawai.data
+        file = request.files['foto']
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            pengguna.name = form.name.data
+            pengguna.email = form.email.data
+            pengguna.hp = form.hp.data
+            pengguna.pegawai = form.pegawai.data
+            pengguna.foto = filename
+            db.session.commit()
+            filepath = os.path.join(current_app.root_path, 'static/img', filename) 
+            file.save(filepath)
+            flash('Data pengguna '+pengguna.name+' telah diubah')
+            return redirect(url_for('user'))
+        else:
+            pengguna.name = form.name.data
+            pengguna.email = form.email.data
+            pengguna.hp = form.hp.data
+            pengguna.pegawai = form.pegawai.data
 
-        db.session.commit()
-        flash('Data pengguna telah diubah')
-        return redirect(url_for('user'))
+            db.session.commit()
+            flash('Data pengguna '+pengguna.name+' telah diubah')
+            return redirect(url_for('user'))
     
     form.name.data = pengguna.name
     form.email.data = pengguna.email
@@ -357,8 +397,10 @@ def user_edit(id):
 @app.route('/pengguna/<id>/hapus', methods=['GET', 'POST'])
 @login_required
 def user_del(id):
-    check_admin()
     pengguna = Pengguna.query.get_or_404(id)
+    if pegawai.foto is not None :
+        filepath = os.path.join(current_app.root_path, 'static/img', pegawai.foto)
+        os.remove(filepath)
     db.session.delete(pengguna)
     db.session.commit()
     flash('Pengguna telah dihapus')
@@ -368,7 +410,6 @@ def user_del(id):
 @app.route('/pengguna/<id>/ganti-password', methods=['GET', 'POST'])
 @login_required
 def user_password(id):
-    check_admin()
     pengguna = Pengguna.query.get_or_404(id)
     form = PasswordForm(obj=pengguna)
     if form.validate_on_submit():
