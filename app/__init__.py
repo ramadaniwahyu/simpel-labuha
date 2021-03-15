@@ -282,7 +282,7 @@ def pegawai_del(id):
         os.remove(filepath)
     db.session.delete(pegawai)
     db.session.commit()
-    flash('Pegawai '+form.name.data+' telah dihapus')
+    flash('Pegawai '+pegawai.name+' telah dihapus')
     return redirect(url_for('pegawai'))
 
 @app.route('/kirim-pesan', methods=['GET', 'POST'])
