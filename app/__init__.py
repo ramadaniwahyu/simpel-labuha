@@ -16,8 +16,8 @@ login_manager = LoginManager()
 app = Flask(__name__)
 
 # Configuration of application, see configuration.py, choose one and uncomment.
-#app.config.from_object('config.ProductionConfig')
-app.config.from_object('config.DevelopmentConfig')
+app.config.from_object('config.ProductionConfig')
+#app.config.from_object('config.DevelopmentConfig')
 #app.config.from_object('config.TestingConfig')
 
 Bootstrap(app)
