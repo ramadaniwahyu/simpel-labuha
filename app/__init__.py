@@ -238,6 +238,8 @@ def do_check():
             msg = '*INFORMASI KENAIKAN GAJI BERKALA*'+os.linesep+os.linesep+'Pegawai atas nama '+peg.name+' ('+peg.nip+'), Kenaikan Gaji Berkala selanjutnya pada '+peg.kgb_next.strftime('%d-%m-%Y')+', '+times2+' hari lagi.'+os.linesep+'Mohon segera ditindaklanjuti. Abaikan jika sudah diproses.'+os.linesep+os.linesep+'Salam,'+os.linesep+os.linesep+'_Admin SIMPEL-KEPO PN Labuha_'+os.linesep+os.linesep+os.linesep+os.linesep+'*_catatan_* : _Pesan ini dikirim secara otomatis. Tidak perlu dibalas._'
             kirim_wa(peg.id, msg)
 
+    return redirect(url_for('pegawai'))
+
 @app.route('/kirim-whatsapp-pegawai', methods=['GET', 'POST'])
 def to_check():
     daftar = Pegawai.query.all()
@@ -279,6 +281,8 @@ def to_check():
             crl.setopt(crl.POSTFIELDS, pf)
             crl.perform()
             crl.close()
+            
+    return redirect(url_for('pegawai'))
             
 @app.route('/kirim-notif/<id>', methods=['GET', 'POST'])
 def kirim_notif(id):
