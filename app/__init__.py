@@ -37,131 +37,22 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-def kirim_wa_kp(id):
+def kirim_wa(id, msg):
     admin = Pengguna.query.all()
     p = Pegawai.query.get_or_404(id)
     for a in admin:
-        msg = '*Mohon Perhatian*'+os.linesep+os.linesep+'Informasi Pegawai atas nama '+p.name+' ('+p.nip+'), Kenaikan Pangkat selanjutnya pada '+p.kp_next.strftime('%d-%m-%Y')+'.'+os.linesep+'Mohon segera ditindaklanjuti. Abaikan jika sudah diproses.'+os.linesep+os.linesep+'Salam,'+os.linesep+os.linesep+'_Admin SIMPEL-KEPO PN Labuha_'+os.linesep+os.linesep+os.linesep+os.linesep+'*_catatan_* : _Pesan ini dikirim secara otomatis. Tidak perlu dibalas._'
         crl = pycurl.Curl()
         crl.setopt(crl.URL, 'http://ramadani.my.id:5050/waapi/sendImage')
         json = {
             'to': a.hp,
             'pesan': msg,
-            'imageurl': 'http://ramadani.my.id:5099/img/pic.png',
+            'imageurl': 'http://ramadani.my.id:5099/img/pic1.png',
             'image_name': 'pic.png'
             }
         pf = urlencode(json)
         crl.setopt(crl.POSTFIELDS, pf)
         crl.perform()
         crl.close()
-
-def kirim_wa_kgb(id):
-    admin = Pengguna.query.all()
-    p = Pegawai.query.get_or_404(id)
-    for a in admin:
-        msg = '*Mohon Perhatian*'+os.linesep+os.linesep+'Informasi Pegawai atas nama '+p.name+' ('+p.nip+'), Kenaikan Gaji Berkala selanjutnya pada '+p.kgb_next.strftime('%d-%m-%Y')+'.'+os.linesep+'Mohon segera ditindaklanjuti. Abaikan jika sudah diproses.'+os.linesep+os.linesep+'Salam,'+os.linesep+os.linesep+'_Admin SIMPEL-KEPO PN Labuha_'+os.linesep+os.linesep+os.linesep+os.linesep+'*_catatan_* : _Pesan ini dikirim secara otomatis. Tidak perlu dibalas._'
-        crl = pycurl.Curl()
-        crl.setopt(crl.URL, 'http://ramadani.my.id:5050/waapi/sendImage')
-        json = {
-            'to': a.hp,
-            'pesan': msg,
-            'imageurl': 'http://ramadani.my.id:5099/img/pic.png',
-            'image_name': 'pic.png'
-            }
-        pf = urlencode(json)
-        crl.setopt(crl.POSTFIELDS, pf)
-        crl.perform()
-        crl.close()
-
-def do_check_kp():
-    daftar = Pegawai.query.all()
-    for peg in daftar:
-        dt = date.today()
-        kp = peg.kp_next
-        time = (kp - dt)
-        dt = time.total_seconds()
-        delta = dt/86400
-        times = str(int(delta))
-        #kirim_wa_kp(peg.id)
-        #kirim_wa_kgb(peg.id)
-
-        if (delta == 180):
-            kirim_wa_kp(peg.id)
-            flash('Ada Kenaikan Pangkat dalam waktu dekat atas nama '+peg.name+'. Silahkan ditindaklanjuti')
-        elif (delta == 150):
-            kirim_wa_kp(peg.id)
-            flash('Ada Kenaikan Pangkat dalam waktu dekat atas nama '+peg.name+'. Silahkan ditindaklanjuti')
-        elif (delta == 120):
-            kirim_wa_kp(peg.id)
-            flash('Ada Kenaikan Pangkat dalam waktu dekat atas nama '+peg.name+'. Silahkan ditindaklanjuti')
-        elif (delta == 90):
-            kirim_wa_kp(peg.id)
-            flash('Ada Kenaikan Pangkat dalam waktu dekat atas nama '+peg.name+'. Silahkan ditindaklanjuti')
-        elif (delta == 60):
-            kirim_wa_kp(peg.id)
-            flash('Ada Kenaikan Pangkat dalam waktu dekat atas nama '+peg.name+'. Silahkan ditindaklanjuti')
-        elif (delta == 55):
-            kirim_wa_kp(peg.id)
-            flash('Ada Kenaikan Pangkat dalam waktu dekat atas nama '+peg.name+'. Silahkan ditindaklanjuti')
-        elif (delta == 50):
-            kirim_wa_kp(peg.id)
-            flash('Ada Kenaikan Pangkat dalam waktu dekat atas nama '+peg.name+'. Silahkan ditindaklanjuti')
-        elif (delta == 45):
-            kirim_wa_kp(peg.id)
-            flash('Ada Kenaikan Pangkat dalam waktu dekat atas nama '+peg.name+'. Silahkan ditindaklanjuti')
-        elif (delta == 40):
-            kirim_wa_kp(peg.id)
-            flash('Ada Kenaikan Pangkat dalam waktu dekat atas nama '+peg.name+'. Silahkan ditindaklanjuti')
-
-def do_check_kgb():
-    daftar = Pegawai.query.all()
-    for peg in daftar:
-        dt = date.today()
-        kgb = peg.kgb_nextflask
-        time = (kgb - dt)
-        dt = time.total_seconds()
-        delta = dt/86400
-        times = str(int(delta))
-        #kirim_wa_kp(peg.id)
-        #kirim_wa_kgb(peg.id)
-
-        if (delta == 90):
-            kirim_wa_kgb(peg.id)
-            flash('Ada Kenaikan Pangkat dalam waktu dekat atas nama '+peg.name+'. Silahkan ditindaklanjuti')
-        elif (delta == 80):
-            kirim_wa_kgb(peg.id)
-            flash('Ada Kenaikan Gaji Berkala dalam waktu dekat atas nama '+peg.name+'. Silahkan ditindaklanjuti')
-        elif (delta == 70):
-            kirim_wa_kgb(peg.id)
-            flash('Ada Kenaikan Gaji Berkala dalam waktu dekat atas nama '+peg.name+'. Silahkan ditindaklanjuti')
-        elif (delta == 60):
-            kirim_wa_kgb(peg.id)
-            flash('Ada Kenaikan Gaji Berkala dalam waktu dekat atas nama '+peg.name+'. Silahkan ditindaklanjuti')
-        elif (delta == 50):
-            kirim_wa_kgb(peg.id)
-            flash('Ada Kenaikan Gaji Berkala dalam waktu dekat atas nama '+peg.name+'. Silahkan ditindaklanjuti')
-        elif (delta == 40):
-            kirim_wa_kgb(peg.id)
-            flash('Ada Kenaikan Gaji Berkala dalam waktu dekat atas nama '+peg.name+'. Silahkan ditindaklanjuti')
-        elif (delta == 30):
-            kirim_wa_kgb(peg.id)
-            flash('Ada Kenaikan Gaji Berkala dalam waktu dekat atas nama '+peg.name+'. Silahkan ditindaklanjuti')
-        elif (delta == 20):
-            kirim_wa_kgb(peg.id)
-            flash('Ada Kenaikan Gaji Berkala dalam waktu dekat atas nama '+peg.name+'. Silahkan ditindaklanjuti')
-        elif (delta == 10):
-            kirim_wa_kgb(peg.id)
-            flash('Ada Kenaikan Gaji Berkala dalam waktu dekat atas nama '+peg.name+'. Silahkan ditindaklanjuti')
-
-
-'''
-sched = BackgroundScheduler(daemon=True)
-sched.add_job(do_check,'interval',minutes=1)
-sched.start()
-
-# Shut down the scheduler when exiting the app
-atexit.register(lambda: sched.shutdown())
-'''
 
 @app.route('/')
 def index():
@@ -287,14 +178,127 @@ def pegawai_del(id):
 
 @app.route('/kirim-pesan', methods=['GET', 'POST'])
 def kirim_pesan():
-    do_check_kp()
-    do_check_kgb()
+    daftar = Pegawai.query.all()
+    pesan1 = []
+    pesan2 = []
+    for peg in daftar:
+        dt = date.today()
+        kp = peg.kp_next
+        kgb = peg.kgb_next
+        time1 = (kp - dt)
+        time2 = (kgb - dt)
+        dt1 = time1.total_seconds()
+        dt2 = time2.total_seconds()
+        delta1 = dt1/86400
+        delta2 = dt2/86400
+        times1 = str(int(delta1))
+        times2 = str(int(delta2))
+        
+        if (180 <= delta1 <= 30):
+            msg = '*INFORMASI KENAIKAN PANGKAT*'+os.linesep+os.linesep+'Pegawai atas nama '+peg.name+' ('+peg.nip+'), Kenaikan Pangkat selanjutnya pada '+peg.kp_next.strftime('%d-%m-%Y')+', '+times1+' hari lagi.'+os.linesep+'Mohon segera ditindaklanjuti. Abaikan jika sudah diproses.'+os.linesep+os.linesep+'Salam,'+os.linesep+os.linesep+'_Admin SIMPEL-KEPO PN Labuha_'+os.linesep+os.linesep+os.linesep+os.linesep+'*_catatan_* : _Pesan ini dikirim secara otomatis. Tidak perlu dibalas._'
+            kirim_wa(peg.id, msg)
+            pesan1.append(peg.id)
+            flash('Ada Kenaikan Pangkat Pegawai atas nama '+peg.name+' pada '+peg.kp_next.strftime('%d-%m-%Y')+'. Silahkan ditindaklanjuti')
+
+        if (60 <= delta2 <= 1):
+            msg = '*INFORMASI KENAIKAN GAJI BERKALA*'+os.linesep+os.linesep+'Pegawai atas nama '+peg.name+' ('+peg.nip+'), Kenaikan Gaji Berkala selanjutnya pada '+peg.kgb_next.strftime('%d-%m-%Y')+', '+times2+' hari lagi.'+os.linesep+'Mohon segera ditindaklanjuti. Abaikan jika sudah diproses.'+os.linesep+os.linesep+'Salam,'+os.linesep+os.linesep+'_Admin SIMPEL-KEPO PN Labuha_'+os.linesep+os.linesep+os.linesep+os.linesep+'*_catatan_* : _Pesan ini dikirim secara otomatis. Tidak perlu dibalas._'
+            kirim_wa(peg.id, msg)
+            pesan2.append(peg.id)
+            flash('Ada Kenaikan Gaji Berkala Pegawai atas nama '+peg.name+' dalam '+times2+' hari lagi. Silahkan ditindaklanjuti')
+    
+    if not (pesan1):
+        flash('Tidak ada Kenaikan Pangkat 6 bulan kedepan.')
+
+    if not (pesan2): 
+        flash('Tidak ada Kenaikan Gaji Berkala 2 bulan kedepan.')
+
     return redirect(url_for('pegawai'))
 
+@app.route('/kirim-whatsapp', methods=['GET', 'POST'])
+def do_check():
+    daftar = Pegawai.query.all()
+    for peg in daftar:
+        dt = date.today()
+        kp = peg.kp_next
+        kgb = peg.kgb_next
+        time1 = (kp - dt)
+        time2 = (kgb - dt)
+        dt1 = time1.total_seconds()
+        dt2 = time2.total_seconds()
+        delta1 = dt1/86400
+        delta2 = dt2/86400
+        times1 = str(int(delta1))
+        times2 = str(int(delta2))
+
+        if (180 <= delta1 <= 30):
+            msg = '*INFORMASI KENAIKAN PANGKAT*'+os.linesep+os.linesep+'Pegawai atas nama '+peg.name+' ('+peg.nip+'), Kenaikan Pangkat selanjutnya pada '+peg.kp_next.strftime('%d-%m-%Y')+', '+times1+' hari lagi.'+os.linesep+'Mohon segera ditindaklanjuti. Abaikan jika sudah diproses.'+os.linesep+os.linesep+'Salam,'+os.linesep+os.linesep+'_Admin SIMPEL-KEPO PN Labuha_'+os.linesep+os.linesep+os.linesep+os.linesep+'*_catatan_* : _Pesan ini dikirim secara otomatis. Tidak perlu dibalas._'
+            kirim_wa(peg.id, msg)
+            
+        if (60 <= delta2 <= 1):
+            msg = '*INFORMASI KENAIKAN GAJI BERKALA*'+os.linesep+os.linesep+'Pegawai atas nama '+peg.name+' ('+peg.nip+'), Kenaikan Gaji Berkala selanjutnya pada '+peg.kgb_next.strftime('%d-%m-%Y')+', '+times2+' hari lagi.'+os.linesep+'Mohon segera ditindaklanjuti. Abaikan jika sudah diproses.'+os.linesep+os.linesep+'Salam,'+os.linesep+os.linesep+'_Admin SIMPEL-KEPO PN Labuha_'+os.linesep+os.linesep+os.linesep+os.linesep+'*_catatan_* : _Pesan ini dikirim secara otomatis. Tidak perlu dibalas._'
+            kirim_wa(peg.id, msg)
+
+    return redirect(url_for('pegawai'))
+
+@app.route('/kirim-whatsapp-pegawai', methods=['GET', 'POST'])
+def to_check():
+    daftar = Pegawai.query.all()
+    for peg in daftar:
+        dt = date.today()
+        kp = peg.kp_next
+        kgb = peg.kgb_next
+        time1 = (kp - dt)
+        time2 = (kgb - dt)
+        dt1 = time1.total_seconds()
+        dt2 = time2.total_seconds()
+        delta1 = dt1/86400
+        delta2 = dt2/86400
+        times1 = str(int(delta1))
+        times2 = str(int(delta2))
+
+        if (180 <= delta1 <= 30):
+            msg = '*INFORMASI KENAIKAN PANGKAT*'+os.linesep+os.linesep+'Pegawai atas nama '+peg.name+' ('+peg.nip+'), Kenaikan Pangkat selanjutnya pada '+peg.kp_next.strftime('%d-%m-%Y')+', '+times1+' hari lagi.'+os.linesep+'Mohon segera ditindaklanjuti. Abaikan jika sudah diproses.'+os.linesep+os.linesep+'Salam,'+os.linesep+os.linesep+'_Admin SIMPEL-KEPO PN Labuha_'+os.linesep+os.linesep+os.linesep+os.linesep+'*_catatan_* : _Pesan ini dikirim secara otomatis. Tidak perlu dibalas._'
+            crl = pycurl.Curl()
+            crl.setopt(crl.URL, 'http://ramadani.my.id:5050/waapi/sendText')
+            json = {
+                'to': peg.hp,
+                'pesan': msg
+                }
+            pf = urlencode(json)
+            crl.setopt(crl.POSTFIELDS, pf)
+            crl.perform()
+            crl.close()
+            
+        if (60 <= delta2 <= 1):
+            msg = '*INFORMASI KENAIKAN GAJI BERKALA*'+os.linesep+os.linesep+'Pegawai atas nama '+peg.name+' ('+peg.nip+'), Kenaikan Gaji Berkala selanjutnya pada '+peg.kgb_next.strftime('%d-%m-%Y')+', '+times2+' hari lagi.'+os.linesep+'Mohon segera ditindaklanjuti. Abaikan jika sudah diproses.'+os.linesep+os.linesep+'Salam,'+os.linesep+os.linesep+'_Admin SIMPEL-KEPO PN Labuha_'+os.linesep+os.linesep+os.linesep+os.linesep+'*_catatan_* : _Pesan ini dikirim secara otomatis. Tidak perlu dibalas._'
+            crl = pycurl.Curl()
+            crl.setopt(crl.URL, 'http://ramadani.my.id:5050/waapi/sendText')
+            json = {
+                'to': peg.hp,
+                'pesan': msg
+                }
+            pf = urlencode(json)
+            crl.setopt(crl.POSTFIELDS, pf)
+            crl.perform()
+            crl.close()
+            
+    return redirect(url_for('pegawai'))
+            
 @app.route('/kirim-notif/<id>', methods=['GET', 'POST'])
 def kirim_notif(id):
     p = Pegawai.query.get_or_404(id)
-    msg = '*Mohon Perhatian*'+os.linesep+os.linesep+'Informasi Pegawai atas nama '+p.name+' ('+p.nip+'), Kenaikan Pangkat selanjutnya pada '+p.kp_next.strftime('%d-%m-%Y')+'.'+os.linesep+'Mohon segera ditindaklanjuti. Abaikan jika sudah diproses.'+os.linesep+os.linesep+'Salam,'+os.linesep+os.linesep+'_Admin SIMPEL-KEPO PN Labuha_'+os.linesep+os.linesep+os.linesep+os.linesep+'*_catatan_* : _Pesan ini dikirim secara otomatis. Tidak perlu dibalas._'
+    dt = date.today()
+    kp = p.kp_next
+    kgb = p.kgb_next
+    time1 = (kp - dt)
+    time2 = (kgb - dt)
+    dt1 = time1.total_seconds()
+    dt2 = time2.total_seconds()
+    delta1 = dt1/86400
+    delta2 = dt2/86400
+    times1 = str(int(delta1))
+    times2 = str(int(delta2))
+    msg = '*INFORMASI*'+os.linesep+os.linesep+'Berikut informasi anda:'+os.linesep+os.linesep+'Nama :'+p.name+os.linesep+'NIP : '+p.nip+os.linesep+'Kenaikan Pangkat selanjutnya pada *'+p.kp_next.strftime('%d-%m-%Y')+'*, '+times1+' hari lagi'+os.linesep+'Kenaikan Gaji Berkala selanjutnya pada *'+p.kgb_next.strftime('%d-%m-%Y')+'*, '+times2+' hari lagi'+os.linesep+os.linesep+'Ingatkan kepada Sub Bagian Kepegawaian dan Ortala agar segera diproses.'+os.linesep+os.linesep+'Salam,'+os.linesep+os.linesep+'_Admin SIMPEL-KEPO PN Labuha_'+os.linesep+os.linesep+os.linesep+os.linesep+'*_catatan_* : _Pesan ini dikirim secara otomatis. Tidak perlu dibalas._'
     crl = pycurl.Curl()
     crl.setopt(crl.URL, 'http://ramadani.my.id:5050/waapi/sendText')
     json = {
@@ -306,7 +310,7 @@ def kirim_notif(id):
     crl.perform()
     crl.close()
 
-    flash('Pesan Whatsapp telah dikirim!')
+    flash('Notififikasi Whatsapp kepada '+peg.name+' telah dikirim!')
     return redirect(url_for('pegawai'))
 
 ### Pengguna
