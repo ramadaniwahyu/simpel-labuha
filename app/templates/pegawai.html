@@ -40,7 +40,7 @@
                     <tr>
                         <td>
                             <a class="btn btn-app" href="{{ url_for('pegawai_edit', id=pegawai.id) }}"><i data-toggle="tooltip" data-placement="top" title="Ubah" class="fas fa-edit text-info"></i></a>
-                            <a class="btn btn-app" href="{{ url_for('pegawai_del', id=pegawai.id) }}"><i data-toggle="tooltip" data-placement="top" title="Hapus" class="fas fa-trash text-danger"></i></a>
+                            <a class="btn btn-app" href="{{ url_for('pegawai_del', id=pegawai.id) }}" onclick="return confirm('Yakin menghapus data ini?');"><i data-toggle="tooltip" data-placement="top" title="Hapus" class="fas fa-trash text-danger"></i></a>
                             <a class="btn btn-app" href="{{ url_for('kirim_notif', id=pegawai.id) }}"><i data-toggle="tooltip" data-placement="top" title="Kirim Notif WA" class="fas fa-paper-plane text-success"></i></a>
                         </td>
                         <td>
