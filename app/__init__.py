@@ -351,8 +351,6 @@ def user():
                                 password=form.name.data)
                 db.session.add(pengguna)
                 db.session.commit()
-                filepath = os.path.join(current_app.root_path, 'static/img', filename) 
-                file.save(filepath)
                 flash('Pengguna baru "'+form.name.data+'" telah ditambahkan, tidak ada foto profil.')
                 return redirect(url_for('user'))
         
@@ -399,7 +397,7 @@ def user_edit(id):
 def user_del(id):
     pengguna = Pengguna.query.get_or_404(id)
     if pengguna.foto is not None :
-        filepath = os.path.join(current_app.root_path, 'static/img', pegawai.foto)
+        filepath = os.path.join(current_app.root_path, 'static/img', pengguna.foto)
         os.remove(filepath)
     db.session.delete(pengguna)
     db.session.commit()
