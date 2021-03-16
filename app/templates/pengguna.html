@@ -38,8 +38,12 @@
                             <br /><small><i>{{ pengguna.email }}</i></small>
                         </td>
                         <td>
+                            {% if pengguna.pegawai %}
                             {{ pengguna.pegawai}}<br />
-                            <small>{{ pengguna.jabatan }}</small>
+                            <small>{{ pengguna.pegawai.jabatan }}</small>
+                            {% else %}
+                            Belum ditentukan
+                            {% endif %}
                         </td>
                         <td class="text-center">
                             <a class="btn btn-app" href="{{ url_for('user_edit', id=pengguna.id) }}"><i data-toggle="tooltip" data-placement="top" title="Edit" class="fas fa-edit text-info"></i> </a>
