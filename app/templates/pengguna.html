@@ -35,20 +35,11 @@
                         <td>{{ no }}</td>
                         <td>
                             {{ pengguna.name }}
-                            {% if pengguna.level=='0' %}
-                                <sup>
-                                    <span class="badge badge-danger">S</span>
-                                </sup>
-                            {% elif pengguna.level=='1' %}
-                            <sup>
-                                <span class="badge badge-info">P</span>
-                            </sup>
-                            {% endif %}
                             <br /><small><i>{{ pengguna.email }}</i></small>
                         </td>
                         <td>
-                            {{ pengguna.fullname}}<br />
-                            <small>{{ pengguna.group }}</small>
+                            {{ pengguna.pegawai}}<br />
+                            <small>{{ pengguna.jabatan }}</small>
                         </td>
                         <td class="text-center">
                             <a class="btn btn-app" href="{{ url_for('user_edit', id=pengguna.id) }}"><i data-toggle="tooltip" data-placement="top" title="Edit" class="fas fa-edit text-info"></i> </a>
