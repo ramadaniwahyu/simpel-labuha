@@ -86,8 +86,13 @@
             <img src="{{ url_for('serveStaticResource', resource='img/user-default.png') }}" alt="{{ current_user.name }}-{{ current_user.email }}" class="profile-user-img img-fluid img-circle">
             {% endif %}
         </div>
+        {% if current_user.pegawai %}
+        {{ current_user.pegawai.name }}
+        {{ current_user.pegawai.jabatan }}
+        {% else %}
         {{ current_user.name }}<br />
         <small>{{ current_user.email }}</small>
+        {% endif %}
       </div>
       <hr>
       <!-- Sidebar Menu -->
