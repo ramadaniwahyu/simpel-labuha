@@ -87,7 +87,7 @@
             {% endif %}
         </div>
         {% if current_user.pegawai %}
-        {{ current_user.pegawai.name }}
+        {{ current_user.pegawai.name }}<br />
         <small>{{ current_user.pegawai.jabatan }}</small>
         {% else %}
         {{ current_user.name }}<br />
