@@ -325,7 +325,7 @@ def user():
         file = request.files['foto']
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            pengguna = pengguna.query.filter_by(name=form.name.data).first()
+            pengguna = Pengguna.query.filter_by(name=form.name.data).first()
             if pengguna is not None :
                 flash('Nama pengguna '+form.name.data+' sudah ada, periksa kembali')
                 return redirect(url_for('user'))
@@ -341,7 +341,7 @@ def user():
                 return redirect(url_for('user'))
             
         else :
-            pengguna = pengguna.query.filter_by(name=form.name.data).first()
+            pengguna = Pengguna.query.filter_by(name=form.name.data).first()
             if pengguna is not None :
                 flash('Nama pengguna '+form.name.data+' sudah ada, periksa kembali')
                 return redirect(url_for('user'))
