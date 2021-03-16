@@ -2,6 +2,8 @@ import os
 from urllib.parse import urlencode
 import pycurl
 import atexit
+import threading
+import requests
 from apscheduler.schedulers.background import BackgroundScheduler
 from datetime import date, datetime
 from flask import Flask, render_template, redirect, url_for, send_from_directory, request, current_app, flash, abort
@@ -37,6 +39,14 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+def request_task(url, json):
+    requests.post(url, json)
+
+
+def kirim_wa(url, json):
+    threading.Thread(target=request_task, args=(url, json)).start()
+
+'''
 def kirim_wa(id, msg):
     admin = Pengguna.query.all()
     p = Pegawai.query.get_or_404(id)
@@ -53,7 +63,7 @@ def kirim_wa(id, msg):
         crl.setopt(crl.POSTFIELDS, pf)
         crl.perform()
         crl.close()
-
+'''
 @app.route('/')
 def index():
     daftar = Pegawai.query.all()
@@ -178,7 +188,9 @@ def pegawai_del(id):
 
 @app.route('/kirim-pesan', methods=['GET', 'POST'])
 def kirim_pesan():
+    url = "http://ramadani.my.id:5050/waapi/sendImage"
     daftar = Pegawai.query.all()
+    admin = Pengguna.query.all()
     pesan1 = []
     pesan2 = []
     for peg in daftar:
@@ -194,15 +206,29 @@ def kirim_pesan():
         times1 = str(int(delta1))
         times2 = str(int(delta2))
         
-        if (180 <= delta1 <= 30):
+        if (30 <= delta1 <= 180):
             msg = '*INFORMASI KENAIKAN PANGKAT*'+os.linesep+os.linesep+'Pegawai atas nama '+peg.name+' ('+peg.nip+'), Kenaikan Pangkat selanjutnya pada '+peg.kp_next.strftime('%d-%m-%Y')+', '+times1+' hari lagi.'+os.linesep+'Mohon segera ditindaklanjuti. Abaikan jika sudah diproses.'+os.linesep+os.linesep+'Salam,'+os.linesep+os.linesep+'_Admin SIMPEL-KEPO PN Labuha_'+os.linesep+os.linesep+os.linesep+os.linesep+'*_catatan_* : _Pesan ini dikirim secara otomatis. Tidak perlu dibalas._'
-            kirim_wa(peg.id, msg)
+            for a in admin:
+                data = {
+                    'to': a.hp,
+                    'pesan': msg,
+                    'imageurl': 'http://ramadani.my.id:5099/img/pic1.png',
+                    'image_name': 'pic.png'
+                }
+                kirim_wa(url, json=data)
             pesan1.append(peg.id)
             flash('Ada Kenaikan Pangkat Pegawai atas nama '+peg.name+' pada '+peg.kp_next.strftime('%d-%m-%Y')+'. Silahkan ditindaklanjuti')
 
-        if (60 <= delta2 <= 1):
+        if (1 <= delta2 <= 60):
             msg = '*INFORMASI KENAIKAN GAJI BERKALA*'+os.linesep+os.linesep+'Pegawai atas nama '+peg.name+' ('+peg.nip+'), Kenaikan Gaji Berkala selanjutnya pada '+peg.kgb_next.strftime('%d-%m-%Y')+', '+times2+' hari lagi.'+os.linesep+'Mohon segera ditindaklanjuti. Abaikan jika sudah diproses.'+os.linesep+os.linesep+'Salam,'+os.linesep+os.linesep+'_Admin SIMPEL-KEPO PN Labuha_'+os.linesep+os.linesep+os.linesep+os.linesep+'*_catatan_* : _Pesan ini dikirim secara otomatis. Tidak perlu dibalas._'
-            kirim_wa(peg.id, msg)
+            for a in admin:
+                data = {
+                    'to': a.hp,
+                    'pesan': msg,
+                    'imageurl': 'http://ramadani.my.id:5099/img/pic1.png',
+                    'image_name': 'pic.png'
+                }
+                kirim_wa(url, json=data)
             pesan2.append(peg.id)
             flash('Ada Kenaikan Gaji Berkala Pegawai atas nama '+peg.name+' dalam '+times2+' hari lagi. Silahkan ditindaklanjuti')
     
@@ -216,7 +242,9 @@ def kirim_pesan():
 
 @app.route('/kirim-whatsapp', methods=['GET', 'POST'])
 def do_check():
+    url = "http://ramadani.my.id:5050/waapi/sendImage"
     daftar = Pegawai.query.all()
+    admin = Pengguna.query.all()
     for peg in daftar:
         dt = date.today()
         kp = peg.kp_next
@@ -230,18 +258,35 @@ def do_check():
         times1 = str(int(delta1))
         times2 = str(int(delta2))
 
-        if (180 <= delta1 <= 30):
+        if (30 <= delta1 <= 180):
             msg = '*INFORMASI KENAIKAN PANGKAT*'+os.linesep+os.linesep+'Pegawai atas nama '+peg.name+' ('+peg.nip+'), Kenaikan Pangkat selanjutnya pada '+peg.kp_next.strftime('%d-%m-%Y')+', '+times1+' hari lagi.'+os.linesep+'Mohon segera ditindaklanjuti. Abaikan jika sudah diproses.'+os.linesep+os.linesep+'Salam,'+os.linesep+os.linesep+'_Admin SIMPEL-KEPO PN Labuha_'+os.linesep+os.linesep+os.linesep+os.linesep+'*_catatan_* : _Pesan ini dikirim secara otomatis. Tidak perlu dibalas._'
-            kirim_wa(peg.id, msg)
-            
-        if (60 <= delta2 <= 1):
+            for a in admin:
+                data = {
+                    'to': a.hp,
+                    'pesan': msg,
+                    'imageurl': 'http://ramadani.my.id:5099/img/pic1.png',
+                    'image_name': 'pic.png'
+                }
+                kirim_wa(url, json=data)
+                #kirim_wa(peg.id, msg)
+        
+        if (1 <= delta2 <= 60):
             msg = '*INFORMASI KENAIKAN GAJI BERKALA*'+os.linesep+os.linesep+'Pegawai atas nama '+peg.name+' ('+peg.nip+'), Kenaikan Gaji Berkala selanjutnya pada '+peg.kgb_next.strftime('%d-%m-%Y')+', '+times2+' hari lagi.'+os.linesep+'Mohon segera ditindaklanjuti. Abaikan jika sudah diproses.'+os.linesep+os.linesep+'Salam,'+os.linesep+os.linesep+'_Admin SIMPEL-KEPO PN Labuha_'+os.linesep+os.linesep+os.linesep+os.linesep+'*_catatan_* : _Pesan ini dikirim secara otomatis. Tidak perlu dibalas._'
-            kirim_wa(peg.id, msg)
+            for a in admin:
+                data = {
+                    'to': a.hp,
+                    'pesan': msg,
+                    'imageurl': 'http://ramadani.my.id:5099/img/pic1.png',
+                    'image_name': 'pic.png'
+                }
+                kirim_wa(url, json=data)
+                #kirim_wa(peg.id, msg)
 
     return redirect(url_for('pegawai'))
 
 @app.route('/kirim-whatsapp-pegawai', methods=['GET', 'POST'])
 def to_check():
+    url = 'http://ramadani.my.id:5050/waapi/sendText'
     daftar = Pegawai.query.all()
     for peg in daftar:
         dt = date.today()
@@ -256,36 +301,27 @@ def to_check():
         times1 = str(int(delta1))
         times2 = str(int(delta2))
 
-        if (180 <= delta1 <= 30):
+        if (30 <= delta1 <= 180):
             msg = '*INFORMASI KENAIKAN PANGKAT*'+os.linesep+os.linesep+'Pegawai atas nama '+peg.name+' ('+peg.nip+'), Kenaikan Pangkat selanjutnya pada '+peg.kp_next.strftime('%d-%m-%Y')+', '+times1+' hari lagi.'+os.linesep+'Mohon segera ditindaklanjuti. Abaikan jika sudah diproses.'+os.linesep+os.linesep+'Salam,'+os.linesep+os.linesep+'_Admin SIMPEL-KEPO PN Labuha_'+os.linesep+os.linesep+os.linesep+os.linesep+'*_catatan_* : _Pesan ini dikirim secara otomatis. Tidak perlu dibalas._'
-            crl = pycurl.Curl()
-            crl.setopt(crl.URL, 'http://ramadani.my.id:5050/waapi/sendText')
-            json = {
+            data = {
                 'to': peg.hp,
                 'pesan': msg
-                }
-            pf = urlencode(json)
-            crl.setopt(crl.POSTFIELDS, pf)
-            crl.perform()
-            crl.close()
+            }
+            kirim_wa(url, json=data)
             
-        if (60 <= delta2 <= 1):
+        if (1 <= delta2 <= 60):
             msg = '*INFORMASI KENAIKAN GAJI BERKALA*'+os.linesep+os.linesep+'Pegawai atas nama '+peg.name+' ('+peg.nip+'), Kenaikan Gaji Berkala selanjutnya pada '+peg.kgb_next.strftime('%d-%m-%Y')+', '+times2+' hari lagi.'+os.linesep+'Mohon segera ditindaklanjuti. Abaikan jika sudah diproses.'+os.linesep+os.linesep+'Salam,'+os.linesep+os.linesep+'_Admin SIMPEL-KEPO PN Labuha_'+os.linesep+os.linesep+os.linesep+os.linesep+'*_catatan_* : _Pesan ini dikirim secara otomatis. Tidak perlu dibalas._'
-            crl = pycurl.Curl()
-            crl.setopt(crl.URL, 'http://ramadani.my.id:5050/waapi/sendText')
-            json = {
+            data = {
                 'to': peg.hp,
                 'pesan': msg
-                }
-            pf = urlencode(json)
-            crl.setopt(crl.POSTFIELDS, pf)
-            crl.perform()
-            crl.close()
+            }
+            kirim_wa(url, json=data)
             
     return redirect(url_for('pegawai'))
             
 @app.route('/kirim-notif/<id>', methods=['GET', 'POST'])
 def kirim_notif(id):
+    url = 'http://ramadani.my.id:5050/waapi/sendText'
     p = Pegawai.query.get_or_404(id)
     dt = date.today()
     kp = p.kp_next
@@ -299,18 +335,13 @@ def kirim_notif(id):
     times1 = str(int(delta1))
     times2 = str(int(delta2))
     msg = '*INFORMASI*'+os.linesep+os.linesep+'Berikut informasi anda:'+os.linesep+os.linesep+'Nama :'+p.name+os.linesep+'NIP : '+p.nip+os.linesep+'Kenaikan Pangkat selanjutnya pada *'+p.kp_next.strftime('%d-%m-%Y')+'*, '+times1+' hari lagi'+os.linesep+'Kenaikan Gaji Berkala selanjutnya pada *'+p.kgb_next.strftime('%d-%m-%Y')+'*, '+times2+' hari lagi'+os.linesep+os.linesep+'Ingatkan kepada Sub Bagian Kepegawaian dan Ortala agar segera diproses.'+os.linesep+os.linesep+'Salam,'+os.linesep+os.linesep+'_Admin SIMPEL-KEPO PN Labuha_'+os.linesep+os.linesep+os.linesep+os.linesep+'*_catatan_* : _Pesan ini dikirim secara otomatis. Tidak perlu dibalas._'
-    crl = pycurl.Curl()
-    crl.setopt(crl.URL, 'http://ramadani.my.id:5050/waapi/sendText')
-    json = {
+    data = {
         'to': p.hp,
         'pesan': msg
-        }
-    pf = urlencode(json)
-    crl.setopt(crl.POSTFIELDS, pf)
-    crl.perform()
-    crl.close()
+    }
+    kirim_wa(url, json=data)
 
-    flash('Notififikasi Whatsapp kepada '+peg.name+' telah dikirim!')
+    flash('Notififikasi Whatsapp kepada '+p.name+' telah dikirim!')
     return redirect(url_for('pegawai'))
 
 ### Pengguna
