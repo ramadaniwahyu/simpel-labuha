@@ -222,6 +222,16 @@ def kirim_pesan():
 
     return redirect(url_for('pegawai'))
 
+@app.route('/cek-whatsapp', methods=['GET', 'POST'])
+def po_check():
+    url = "http://ramadani.my.id:5050/waapi/sendText"
+    msg = "Ini ujicoba Server Whatsapp"
+    data = {
+        'to': '628113502605',
+        'pesan': msg
+    }
+    kirim_wa(url, json=data)
+
 @app.route('/kirim-whatsapp', methods=['GET', 'POST'])
 def do_check():
     url = "http://ramadani.my.id:5050/waapi/sendImage"
