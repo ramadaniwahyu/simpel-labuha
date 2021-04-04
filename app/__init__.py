@@ -194,7 +194,7 @@ def kirim_pesan():
                 data = {
                     'to': a.hp,
                     'pesan': msg,
-                    'imageurl': 'http://ramadani.my.id:5099/img/pic1.png',
+                    'imageurl': 'http://simpel.kieraha.my.id/img/pic1.png',
                     'image_name': 'pic.png'
                 }
                 kirim_wa(url, json=data)
@@ -207,7 +207,7 @@ def kirim_pesan():
                 data = {
                     'to': a.hp,
                     'pesan': msg,
-                    'imageurl': 'http://ramadani.my.id:5099/img/pic1.png',
+                    'imageurl': 'http://simpel.kieraha.my.id/img/pic1.png',
                     'image_name': 'pic.png'
                 }
                 kirim_wa(url, json=data)
@@ -256,7 +256,7 @@ def do_check():
                 data = {
                     'to': a.hp,
                     'pesan': msg,
-                    'imageurl': 'http://ramadani.my.id:5099/img/pic1.png',
+                    'imageurl': 'http://simpel.kieraha.my.id/img/pic1.png',
                     'image_name': 'pic.png'
                 }
                 kirim_wa(url, json=data)
@@ -267,7 +267,7 @@ def do_check():
                 data = {
                     'to': a.hp,
                     'pesan': msg,
-                    'imageurl': 'http://ramadani.my.id:5099/img/pic1.png',
+                    'imageurl': 'http://simpel.kieraha.my.id/img/pic1.png',
                     'image_name': 'pic.png'
                 }
                 kirim_wa(url, json=data)
