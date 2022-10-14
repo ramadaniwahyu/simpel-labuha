@@ -168,7 +168,7 @@ def pegawai_del(id):
 
 @app.route('/kirim-pesan', methods=['GET', 'POST'])
 def kirim_pesan():
-    url = "http://localhost:8000/send"
+    url = "http://216.127.175.21:8000/send"
     daftar = Pegawai.query.all()
     admin = Pengguna.query.all()
     pesan1 = []
@@ -218,7 +218,7 @@ def kirim_pesan():
 
 @app.route('/cek-whatsapp', methods=['GET', 'POST'])
 def po_check():
-    url = "http://localhost:8000/send"
+    url = "http://216.127.175.21:8000/send"
     msg = "Ini ujicoba Server Whatsapp"
     data = {
         'phone': '628113502605',
@@ -228,7 +228,7 @@ def po_check():
 
 @app.route('/kirim-whatsapp', methods=['GET', 'POST'])
 def do_check():
-    url = "http://localhost:8000/send"
+    url = "http://216.127.175.21:8000/send"
     daftar = Pegawai.query.all()
     admin = Pengguna.query.all()
     for peg in daftar:
@@ -266,7 +266,7 @@ def do_check():
 
 @app.route('/kirim-whatsapp-pegawai', methods=['GET', 'POST'])
 def to_check():
-    url = 'http://localhost:8000/send'
+    url = 'http://216.127.175.21:8000/send'
     daftar = Pegawai.query.all()
     for peg in daftar:
         dt = date.today()
@@ -301,7 +301,7 @@ def to_check():
             
 @app.route('/kirim-notif/<id>', methods=['GET', 'POST'])
 def kirim_notif(id):
-    url = 'http://localhost:8000/send'
+    url = 'http://216.127.175.21:8000/send'
     p = Pegawai.query.get_or_404(id)
     dt = date.today()
     kp = p.kp_next
